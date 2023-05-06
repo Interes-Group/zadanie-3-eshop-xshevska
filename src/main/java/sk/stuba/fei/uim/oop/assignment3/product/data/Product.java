@@ -1,17 +1,19 @@
-package product.data;
+package sk.stuba.fei.uim.oop.assignment3.product.data;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 public class Product {
     @Id
@@ -23,12 +25,11 @@ public class Product {
     private String unit;
     private Double price;
 
-    public Product(Long id, String name, String description, Long amount, String unit, Double price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.amount = amount;
-        this.unit = unit;
-        this.price = price;
+    public Product(ProductRequest request) {
+        this.name = request.getName();
+        this.description = request.getDescription();
+        this.amount = request.getAmount();
+        this.unit = request.getUnit();
+        this.price = request.getPrice();
     }
 }
