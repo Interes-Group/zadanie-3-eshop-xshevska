@@ -14,7 +14,6 @@ public class ProductResponse {
     private final String unit;
     private final double price;
 
-
     public ProductResponse(Product product) {
         this.id = product.getId();
         this.name = product.getName();
