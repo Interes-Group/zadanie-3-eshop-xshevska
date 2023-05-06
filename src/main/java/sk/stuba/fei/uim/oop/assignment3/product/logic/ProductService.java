@@ -21,7 +21,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product create(ProductRequest request) {
+    public Product create(ProductRequest request) throws NotFoundException {
         return this.repository.save(new Product(request));
     }
 
