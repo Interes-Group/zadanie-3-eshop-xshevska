@@ -6,8 +6,10 @@ import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.data.IProductRepository;
 import sk.stuba.fei.uim.oop.assignment3.product.data.Product;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
+import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductUpdateRequest;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -32,6 +34,20 @@ public class ProductService implements IProductService {
             throw new NotFoundException();
         }
         return productById;
+    }
+
+    @Override
+    public Product update(Long id, ProductUpdateRequest updateRequest) throws NotFoundException {
+        Product product = this.getById(id);
+
+        if (Objects.nonNull(updateRequest.getName())) {
+            product.setName(updateRequest.getName());
+        }
+        if (Objects.nonNull(updateRequest.getDescription())) {
+            product.setDescription(updateRequest.getDescription());
+        }
+
+        return this.repository.save(product);
     }
 
 }

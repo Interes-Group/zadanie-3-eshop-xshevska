@@ -10,6 +10,7 @@ import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.logic.IProductService;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductResponse;
+import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductUpdateRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,14 @@ public class ProductController {
     public ProductResponse getProduct(@PathVariable("id") Long productId) throws NotFoundException {
         return new ProductResponse(this.service.getById(productId));
     }
+
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductResponse updateProduct(@PathVariable("id") Long productId, @RequestBody ProductUpdateRequest body) throws NotFoundException {
+        return new ProductResponse(this.service.update(productId, body));
+    }
+
+
 
 
 }
