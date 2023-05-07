@@ -10,4 +10,6 @@ public interface IProductService {
     List<Product> getAll();
 
     Product create(ProductRequest request) throws NotFoundException;
+
+    Product getById(Long id) throws NotFoundException;
 }

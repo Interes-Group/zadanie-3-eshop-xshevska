@@ -7,8 +7,8 @@ import sk.stuba.fei.uim.oop.assignment3.product.data.IProductRepository;
 import sk.stuba.fei.uim.oop.assignment3.product.data.Product;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
 
-
 import java.util.List;
+
 
 @Service
 public class ProductService implements IProductService {
@@ -21,9 +21,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product create(ProductRequest request) throws NotFoundException {
+    public Product create(ProductRequest request) {
         return this.repository.save(new Product(request));
     }
 
+    @Override
+    public Product getById(Long id) throws NotFoundException {
+        Product productById = this.repository.findProductById(id);
+        if (productById == null) {
+            throw new NotFoundException();
+        }
+        return productById;
+    }
 
 }

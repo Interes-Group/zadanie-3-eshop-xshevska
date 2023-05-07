@@ -31,5 +31,10 @@ public class ProductController {
         return new ResponseEntity<>(new ProductResponse(this.service.create(body)), HttpStatus.CREATED);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductResponse getProduct(@PathVariable("id") Long productId) throws NotFoundException {
+        return new ProductResponse(this.service.getById(productId));
+    }
+
 
 }
