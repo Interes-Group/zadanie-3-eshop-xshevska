@@ -55,5 +55,10 @@ public class ProductService implements IProductService {
         this.repository.delete(this.getById(id));
     }
 
+    @Override
+    public Long getAmount(Long id) throws NotFoundException {
+        return this.getById(id).getAmount();
+    }
+
 
 }

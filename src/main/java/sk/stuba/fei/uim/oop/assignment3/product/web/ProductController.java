@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.logic.IProductService;
+import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.Amount;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductResponse;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductUpdateRequest;
@@ -48,8 +49,10 @@ public class ProductController {
         this.service.delete(productId);
     }
 
-
-
+    @GetMapping(value = "/{id}/amount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Amount getAmount(@PathVariable("id") Long productId) throws NotFoundException {
+        return new Amount(this.service.getAmount(productId));
+    }
 
 
 }
