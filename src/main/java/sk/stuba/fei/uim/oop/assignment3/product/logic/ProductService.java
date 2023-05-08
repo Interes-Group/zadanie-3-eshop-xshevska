@@ -60,5 +60,13 @@ public class ProductService implements IProductService {
         return this.getById(id).getAmount();
     }
 
+    @Override
+    public Long addAmount(Long id, Long increment) throws NotFoundException {
+        Product product = this.getById(id);
+        product.setAmount(product.getAmount() + increment);
+        this.repository.save(product);
+        return product.getAmount();
+    }
+
 
 }
