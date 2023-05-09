@@ -59,8 +59,4 @@ public class ProductController {
         return new Amount(this.service.addAmount(productId, body.getAmount()));
     }
 
-
-
-
-
 }
