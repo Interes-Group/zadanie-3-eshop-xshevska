@@ -32,7 +32,7 @@ public class ProductService implements IProductService {
     @Override
     public Product getById(Long id) throws NotFoundException {
         Product productById = this.repository.findProductById(id);
-        if (productById == null) {
+        if (Objects.isNull(productById)) {
             throw new NotFoundException();
         }
         return productById;
