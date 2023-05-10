@@ -1,7 +1,6 @@
 package sk.stuba.fei.uim.oop.assignment3.product.web;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private IProductService service;
+    private final IProductService service;
+
+    public ProductController(IProductService service) {
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ProductResponse> getAllProducts() {
