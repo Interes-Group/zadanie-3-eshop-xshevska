@@ -7,4 +7,6 @@ public interface IShoppingCartService {
     ShoppingCart create();
 
     ShoppingCart getById(Long cartId) throws NotFoundException;
+
+    void delete(Long id) throws NotFoundException;
 }

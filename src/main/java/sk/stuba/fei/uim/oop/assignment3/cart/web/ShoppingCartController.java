@@ -29,7 +29,10 @@ public class ShoppingCartController {
         return new CartResponse(this.service.getById(cartId));
     }
 
-
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable("id") Long cartId) throws NotFoundException {
+        this.service.delete(cartId);
+    }
 
 
 }
