@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 @Setter
 public class CartResponse {
     private Long id;
-    private boolean payed;
     private List<CartListItem> shoppingList;
+    private boolean payed;
 
 
     public CartResponse(ShoppingCart shoppingCart) {

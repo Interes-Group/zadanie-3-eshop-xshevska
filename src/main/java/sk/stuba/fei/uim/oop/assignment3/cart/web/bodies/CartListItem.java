@@ -11,7 +11,6 @@ import sk.stuba.fei.uim.oop.assignment3.cart.data.CartInput;
 @NoArgsConstructor
 public class CartListItem {
     private Long productId;
-
     private Long amount;
 
     public CartListItem(CartInput cartInput) {

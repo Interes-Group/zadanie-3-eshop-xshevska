@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sk.stuba.fei.uim.oop.assignment3.cart.data.ShoppingCart;
 import sk.stuba.fei.uim.oop.assignment3.cart.logic.IShoppingCartService;
+import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartListItem;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartResponse;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
@@ -34,5 +36,9 @@ public class ShoppingCartController {
         this.service.delete(cartId);
     }
 
+    @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem) throws NotFoundException {
+        this.service.addToShoppingCart(shoppingCartId, cartListItem);
+    }
 
 }
