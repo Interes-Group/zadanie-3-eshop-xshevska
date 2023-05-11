@@ -9,6 +9,10 @@ import sk.stuba.fei.uim.oop.assignment3.cart.logic.IShoppingCartService;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartListItem;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartResponse;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
+import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -21,6 +25,10 @@ public class ShoppingCartController {
         this.service = service;
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CartResponse> getAllProducts() {
+        return this.service.getAll().stream().map(CartResponse::new).collect(Collectors.toList());
+    }
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CartResponse> addShoppingCart() {
         return new ResponseEntity<>(new CartResponse(this.service.create()), HttpStatus.CREATED);
@@ -38,7 +46,7 @@ public class ShoppingCartController {
 
     @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem) throws NotFoundException {
-        this.service.addToShoppingCart(shoppingCartId, cartListItem);
+        return new CartResponse(this.service.addToShoppingCart(shoppingCartId, cartListItem));
     }
 
 }

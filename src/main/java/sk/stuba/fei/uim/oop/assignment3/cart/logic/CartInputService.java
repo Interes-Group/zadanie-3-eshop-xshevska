@@ -13,8 +13,8 @@ public class CartInputService implements ICartInputService {
     }
 
     @Override
-    public CartInput create() {
-        return this.repository.save(new CartInput());
+    public CartInput create(CartInput cartInput) {
+        return this.repository.save(cartInput);
     }
 
 

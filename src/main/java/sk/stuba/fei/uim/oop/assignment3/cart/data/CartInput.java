@@ -22,4 +22,9 @@ public class CartInput {
     @ManyToOne
     private Product product;
 
+    public CartInput(Long amount, Product product) {
+        this.amount = amount;
+        this.product = product;
+    }
+
 }
