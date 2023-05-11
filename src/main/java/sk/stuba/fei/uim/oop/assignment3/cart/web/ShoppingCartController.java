@@ -8,6 +8,7 @@ import sk.stuba.fei.uim.oop.assignment3.cart.data.ShoppingCart;
 import sk.stuba.fei.uim.oop.assignment3.cart.logic.IShoppingCartService;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartListItem;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartResponse;
+import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductResponse;
 
@@ -45,7 +46,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem) throws NotFoundException {
+    public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem) throws NotFoundException, IllegalOperationException {
         return new CartResponse(this.service.addToShoppingCart(shoppingCartId, cartListItem));
     }
 
