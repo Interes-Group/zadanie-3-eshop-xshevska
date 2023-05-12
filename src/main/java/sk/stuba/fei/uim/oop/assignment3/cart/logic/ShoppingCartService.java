@@ -102,11 +102,13 @@ public class ShoppingCartService implements IShoppingCartService {
 //                }
                 // if NOT OK -> создай новый продукт с данным количеством и запиши его в шопинг кард
             } else {
-                System.out.println("Producta neni v sklade.. ");
+                throw new IllegalOperationException();
+//                System.out.println("Producta neni v sklade.. ДОБАВИТЬ");
             }
 
         } else {
             System.out.println("ShoppingCart nie je.. ");
+//            throw new NotFoundException();
         }
         return null;
     }
