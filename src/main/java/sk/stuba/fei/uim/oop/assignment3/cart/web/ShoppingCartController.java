@@ -53,7 +53,7 @@ public class ShoppingCartController {
 
     @GetMapping(value = "/{id}/pay", produces = MediaType.TEXT_PLAIN_VALUE)
     public String payCart(@PathVariable("id") Long cartId) throws NotFoundException, IllegalOperationException {
-        return " " + this.service.payCart(cartId);
+        return this.service.payCart(cartId);
     }
 
 
