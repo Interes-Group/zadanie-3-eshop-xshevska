@@ -23,7 +23,8 @@ public class ShoppingCartService implements IShoppingCartService {
     private final ICartInputService cartInputService;
 
 
-    public ShoppingCartService(IShoppingCartRepository repository, IProductService productService, ICartInputService cartInputService) {
+    public ShoppingCartService(IShoppingCartRepository repository, IProductService productService,
+                               ICartInputService cartInputService) {
         this.shoppingRepository = repository;
         this.productService = productService;
         this.cartInputService = cartInputService;
@@ -54,7 +55,8 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public ShoppingCart addToShoppingCart(Long shoppingCartId, CartListItem cartListItem) throws NotFoundException, IllegalOperationException {
+    public ShoppingCart addToShoppingCart(Long shoppingCartId, CartListItem cartListItem)
+            throws NotFoundException, IllegalOperationException {
         ShoppingCart shoppingCart = this.shoppingRepository.findShoppingCartById(shoppingCartId);
         if (shoppingCart == null) {
             throw new NotFoundException();
@@ -70,13 +72,9 @@ public class ShoppingCartService implements IShoppingCartService {
 
         List<CartInput> shopList = shoppingCart.getShoppingList();
 
-        shopList.stream()
-                .filter(cartInput -> cartInput.getProduct().getId().equals(cartListItem.getProductId()))
-                .findFirst()
-                .ifPresentOrElse(
-                        input -> updateCartInput(input, cartListItem),
-                        () -> addNewCartInput(shopList, cartListItem, product)
-                );
+        shopList.stream().filter(cartInput -> cartInput.getProduct().getId().equals(cartListItem.getProductId()))
+                .findFirst().ifPresentOrElse(input -> updateCartInput(input, cartListItem),
+                        () -> addNewCartInput(shopList, cartListItem, product));
 
         if (newAmount == 0) {
             this.productService.delete(cartListItem.getProductId());
@@ -103,22 +101,19 @@ public class ShoppingCartService implements IShoppingCartService {
     @Override
     public String payCart(Long idCart) throws IllegalOperationException, NotFoundException {
         ShoppingCart shoppingCart = this.shoppingRepository.findShoppingCartById(idCart);
-
         if (shoppingCart == null) {
             throw new NotFoundException();
         }
-
         if (shoppingCart.isPayed()) {
             throw new IllegalOperationException();
         }
-        Long sum = 0L;
-        for (CartInput ci : shoppingCart.getShoppingList()) {
-            // find product and get price of it.
-            sum += ci.getAmount() * this.getPriceOfProduct(ci.getProduct().getId());
+        long sum = 0L;
+        for (CartInput cartInput : shoppingCart.getShoppingList()) {
+            sum += cartInput.getAmount() * this.getPriceOfProduct(cartInput.getProduct().getId());
         }
         shoppingCart.setPayed(true);
         this.shoppingRepository.save(shoppingCart);
-        return sum.toString();
+        return Long.toString(sum);
     }
 
     private Long getPriceOfProduct(Long productId) throws NotFoundException {

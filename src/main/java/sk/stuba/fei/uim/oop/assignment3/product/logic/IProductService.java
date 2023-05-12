@@ -22,6 +22,6 @@ public interface IProductService {
 
     Long addAmount(Long id, Long increment) throws NotFoundException;
 
-    Product updateAmount(Long id, Long amount) throws NotFoundException;
+    void updateAmount(Long id, Long amount) throws NotFoundException;
 
 }

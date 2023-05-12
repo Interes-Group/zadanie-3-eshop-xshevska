@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.assignment3.cart.data;
 
-
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,7 +9,6 @@ import java.util.List;
 @Data
 @Entity
 public class ShoppingCart {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -44,7 +44,8 @@ public class ShoppingCartController {
         this.service.delete(cartId);
     }
 
-    @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem)
             throws NotFoundException, IllegalOperationException {
         return new CartResponse(this.service.addToShoppingCart(shoppingCartId, cartListItem));

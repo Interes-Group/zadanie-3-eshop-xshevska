@@ -71,11 +71,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateAmount(Long id, Long amount) throws NotFoundException {
+    public void updateAmount(Long id, Long amount) throws NotFoundException {
         Product product = this.getById(id);
         product.setAmount(amount);
         this.repository.save(product);
-        return product;
     }
 
 
