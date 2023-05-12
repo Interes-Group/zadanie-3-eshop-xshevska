@@ -4,13 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sk.stuba.fei.uim.oop.assignment3.cart.data.ShoppingCart;
 import sk.stuba.fei.uim.oop.assignment3.cart.logic.IShoppingCartService;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartListItem;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartResponse;
 import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
-import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +28,7 @@ public class ShoppingCartController {
     public List<CartResponse> getAllProducts() {
         return this.service.getAll().stream().map(CartResponse::new).collect(Collectors.toList());
     }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CartResponse> addShoppingCart() {
         return new ResponseEntity<>(new CartResponse(this.service.create()), HttpStatus.CREATED);
@@ -46,8 +45,15 @@ public class ShoppingCartController {
     }
 
     @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem) throws NotFoundException, IllegalOperationException {
+    public CartResponse addToShoppingCart(@PathVariable("id") Long shoppingCartId, @RequestBody CartListItem cartListItem)
+            throws NotFoundException, IllegalOperationException {
         return new CartResponse(this.service.addToShoppingCart(shoppingCartId, cartListItem));
     }
+
+    @GetMapping(value = "/{id}/pay", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String payCart(@PathVariable("id") Long cartId) throws NotFoundException, IllegalOperationException {
+        return " " + this.service.payCart(cartId);
+    }
+
 
 }

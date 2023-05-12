@@ -60,7 +60,7 @@ public class ShoppingCartService implements IShoppingCartService {
             throw new NotFoundException();
         }
         Product product = this.productService.getById(cartListItem.getProductId());
-        if (product.getAmount() < cartListItem.getAmount()) {
+        if (product.getAmount() < cartListItem.getAmount() || shoppingCart.isPayed()) {
             throw new IllegalOperationException();
         }
 
@@ -87,6 +87,7 @@ public class ShoppingCartService implements IShoppingCartService {
         return shoppingCart;
     }
 
+
     private void updateCartInput(CartInput cartInput, CartListItem cartListItem) {
         cartInput.setAmount(cartInput.getAmount() + cartListItem.getAmount());
         this.cartInputService.create(cartInput);
@@ -98,5 +99,33 @@ public class ShoppingCartService implements IShoppingCartService {
         shopList.add(cartInput);
     }
 
+
+    @Override
+    public String payCart(Long idCart) throws IllegalOperationException, NotFoundException {
+        ShoppingCart shoppingCart = this.shoppingRepository.findShoppingCartById(idCart);
+
+        if(shoppingCart == null){
+            throw new NotFoundException();
+        }
+
+        if(shoppingCart.isPayed()){
+            throw new IllegalOperationException();
+        }
+        Long sum = 0L;
+        for(CartInput ci : shoppingCart.getShoppingList()){
+            // find product and get price of it.
+            sum += ci.getAmount() * this.getPriceOfProduct(ci.getProduct().getId());
+        }
+        shoppingCart.setPayed(true);
+        this.shoppingRepository.save(shoppingCart);
+        System.out.println("this is price of the shoppingCart: " + sum);
+        return sum.toString();
+    }
+
+    private Long getPriceOfProduct(Long productId) throws NotFoundException {
+        Product product = this.productService.getById(productId);
+        Double price = product.getPrice();
+        return (long) price.intValue();
+    }
 
 }

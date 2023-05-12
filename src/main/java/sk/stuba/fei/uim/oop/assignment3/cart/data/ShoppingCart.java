@@ -14,6 +14,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToMany(orphanRemoval = true)
     private List<CartInput> shoppingList;
 
