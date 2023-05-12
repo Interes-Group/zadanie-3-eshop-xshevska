@@ -104,21 +104,20 @@ public class ShoppingCartService implements IShoppingCartService {
     public String payCart(Long idCart) throws IllegalOperationException, NotFoundException {
         ShoppingCart shoppingCart = this.shoppingRepository.findShoppingCartById(idCart);
 
-        if(shoppingCart == null){
+        if (shoppingCart == null) {
             throw new NotFoundException();
         }
 
-        if(shoppingCart.isPayed()){
+        if (shoppingCart.isPayed()) {
             throw new IllegalOperationException();
         }
         Long sum = 0L;
-        for(CartInput ci : shoppingCart.getShoppingList()){
+        for (CartInput ci : shoppingCart.getShoppingList()) {
             // find product and get price of it.
             sum += ci.getAmount() * this.getPriceOfProduct(ci.getProduct().getId());
         }
         shoppingCart.setPayed(true);
         this.shoppingRepository.save(shoppingCart);
-        System.out.println("this is price of the shoppingCart: " + sum);
         return sum.toString();
     }
 
