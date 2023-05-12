@@ -56,11 +56,15 @@ public class ShoppingCartService implements IShoppingCartService {
     @Override
     public ShoppingCart addToShoppingCart(Long shoppingCartId, CartListItem cartListItem) throws NotFoundException, IllegalOperationException {
         ShoppingCart shoppingCart = this.shoppingRepository.findShoppingCartById(shoppingCartId);
+        if (shoppingCart == null) {
+            throw new NotFoundException();
+        }
         // есть ли вообще такая корзина у нас?
         System.out.println(" ---- this is shopingCart: " + shoppingCart.toString());
         Product product = this.productService.getById(cartListItem.getProductId());
         // существует ли вообще такой продукт в складе?
         System.out.println(" ---- this is productService: " + product.getName() + " " + product.getId() + " " + product.getAmount());
+
 
         if (!Objects.isNull(shoppingCart)) {
             if (product.getAmount() >= cartListItem.getAmount()) { // больше равно количества того продукта на складе с тем что мы хотим
@@ -108,6 +112,7 @@ public class ShoppingCartService implements IShoppingCartService {
 
         } else {
             System.out.println("ShoppingCart nie je.. ");
+
 //            throw new NotFoundException();
         }
         return null;
