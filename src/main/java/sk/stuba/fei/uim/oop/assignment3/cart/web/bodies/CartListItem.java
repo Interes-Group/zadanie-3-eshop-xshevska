@@ -1,13 +1,12 @@
 package sk.stuba.fei.uim.oop.assignment3.cart.web.bodies;
 
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.cart.data.CartInput;
 
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 public class CartListItem {
     private Long productId;

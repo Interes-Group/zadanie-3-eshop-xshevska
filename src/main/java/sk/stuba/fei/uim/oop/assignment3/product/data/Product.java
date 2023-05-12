@@ -1,8 +1,7 @@
 package sk.stuba.fei.uim.oop.assignment3.product.data;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.product.web.bodies.ProductRequest;
 
 import javax.persistence.Entity;
@@ -11,8 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Product {
     @Id

@@ -1,10 +1,8 @@
 package sk.stuba.fei.uim.oop.assignment3.product.web.bodies;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ProductRequest {
 
     private String name;

@@ -1,15 +1,13 @@
 package sk.stuba.fei.uim.oop.assignment3.cart.data;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.product.data.Product;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

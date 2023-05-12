@@ -1,14 +1,12 @@
 package sk.stuba.fei.uim.oop.assignment3.cart.web.bodies;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import sk.stuba.fei.uim.oop.assignment3.cart.data.ShoppingCart;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
+@Data
 public class CartResponse {
     private Long id;
     private List<CartListItem> shoppingList;
