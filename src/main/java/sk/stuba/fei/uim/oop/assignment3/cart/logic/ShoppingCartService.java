@@ -59,72 +59,43 @@ public class ShoppingCartService implements IShoppingCartService {
         if (shoppingCart == null) {
             throw new NotFoundException();
         }
-        // есть ли вообще такая корзина у нас?
-        System.out.println(" ---- this is shopingCart: " + shoppingCart.toString());
         Product product = this.productService.getById(cartListItem.getProductId());
-        // существует ли вообще такой продукт в складе?
-        System.out.println(" ---- this is productService: " + product.getName() + " " + product.getId() + " " + product.getAmount());
-
-
-        if (!Objects.isNull(shoppingCart)) {
-            if (product.getAmount() >= cartListItem.getAmount()) { // больше равно количества того продукта на складе с тем что мы хотим
-                // проверить корзину, есть ли в шопинг-листе уже данный продукт
-                List<CartInput> shopList = shoppingCart.getShoppingList();
-                Long newAmount = product.getAmount() - cartListItem.getAmount();
-
-                product.setAmount(newAmount);
-                this.productService.updateAmount(product.getId(), newAmount);
-
-
-                if (checkShoppingListForProduct(cartListItem, shopList)) {
-                    for (CartInput ci : shopList) {
-                        if (ci.getProduct().getId().equals(cartListItem.getProductId())) {
-                            ci.setAmount(ci.getAmount() + cartListItem.getAmount());
-                            this.cartInputService.create(ci);
-                        }
-                    }
-
-                } else {
-                    // сделай апдейт продукта в базе данных, или удал его оттуда если количества нету???
-
-                    CartInput cartInput = new CartInput(cartListItem.getAmount(), product);
-                    this.cartInputService.create(cartInput);
-                    shopList.add(cartInput);
-                }
-
-                if (newAmount == 0) {
-                    this.productService.delete(cartListItem.getProductId());
-                }
-
-
-                // we need to update out shoppingCart shoppingList
-                shoppingCart.setShoppingList(shopList);
-                // and then we need to make change in repository
-                System.out.println("ShoppingCart to update: " + shoppingCart.toString());
-                this.shoppingRepository.save(shoppingCart);
-                return shoppingCart;
-//                }
-                // if NOT OK -> создай новый продукт с данным количеством и запиши его в шопинг кард
-            } else {
-                throw new IllegalOperationException();
-//                System.out.println("Producta neni v sklade.. ДОБАВИТЬ");
-            }
-
-        } else {
-            System.out.println("ShoppingCart nie je.. ");
-
-//            throw new NotFoundException();
+        if (product.getAmount() < cartListItem.getAmount()) {
+            throw new IllegalOperationException();
         }
-        return null;
+
+        Long newAmount = product.getAmount() - cartListItem.getAmount();
+        product.setAmount(newAmount);
+        this.productService.updateAmount(product.getId(), newAmount);
+
+        List<CartInput> shopList = shoppingCart.getShoppingList();
+
+        shopList.stream()
+                .filter(cartInput -> cartInput.getProduct().getId().equals(cartListItem.getProductId()))
+                .findFirst()
+                .ifPresentOrElse(
+                        input -> updateCartInput(input, cartListItem),
+                        () -> addNewCartInput(shopList, cartListItem, product)
+                );
+
+        if (newAmount == 0) {
+            this.productService.delete(cartListItem.getProductId());
+        }
+
+        shoppingCart.setShoppingList(shopList);
+        this.shoppingRepository.save(shoppingCart);
+        return shoppingCart;
     }
 
-    private boolean checkShoppingListForProduct(CartListItem cartListItem, List<CartInput> shopList) {
-        for (CartInput cartInput : shopList) {
-            if (cartInput.getProduct().getId().equals(cartListItem.getProductId())) {
-                return true;
-            }
-        }
-        return false;
+    private void updateCartInput(CartInput cartInput, CartListItem cartListItem) {
+        cartInput.setAmount(cartInput.getAmount() + cartListItem.getAmount());
+        this.cartInputService.create(cartInput);
+    }
+
+    private void addNewCartInput(List<CartInput> shopList, CartListItem cartListItem, Product product) {
+        CartInput cartInput = new CartInput(cartListItem.getAmount(), product);
+        this.cartInputService.create(cartInput);
+        shopList.add(cartInput);
     }
 
 

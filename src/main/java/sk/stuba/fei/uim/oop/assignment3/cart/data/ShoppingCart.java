@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -15,7 +14,6 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @OneToMany(orphanRemoval = true)
     private List<CartInput> shoppingList;
 
@@ -25,7 +23,4 @@ public class ShoppingCart {
         this.shoppingList = new ArrayList<>();
     }
 
-    public CartInput findProductById(Long productId) {
-        return this.shoppingList.stream().filter(e -> Objects.equals(e.getProduct().getId(), productId)).findAny().orElse(null);
-    }
 }

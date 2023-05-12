@@ -6,5 +6,4 @@ public interface ICartInputService {
     CartInput create(CartInput cartInput);
 
 
-
 }
